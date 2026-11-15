@@ -80,7 +80,7 @@ export default function Sidebar({ collapsed, onToggle }) {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    window.location.href = 'http://localhost:5173/login';
   };
 
   return (

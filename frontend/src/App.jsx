@@ -1,10 +1,8 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import AppLayout from './components/layout/AppLayout';
-
-// Auth
-import Login from './pages/auth/Login';
 
 // HR Pages
 import HRDashboard from './pages/hr/HRDashboard';
@@ -25,10 +23,46 @@ import PaymentRecords from './pages/accounting/PaymentRecords';
 import FinancialSummary from './pages/accounting/FinancialSummary';
 import FinancialReports from './pages/accounting/FinancialReports';
 
-/** Redirect to login if not authenticated */
+/** Redirect to central VikingsERP login gateway */
+function CentralLoginRedirect() {
+  useEffect(() => {
+    window.location.href = 'http://localhost:5173/login?redirect=jewel';
+  }, []);
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      gap: '16px',
+      background: '#121212',
+      color: '#FFFFFF',
+      fontFamily: "'Inter', sans-serif",
+    }}>
+      <div style={{
+        width: '40px',
+        height: '40px',
+        border: '3px solid rgba(255,255,255,0.1)',
+        borderTopColor: '#8B1A1A',
+        borderRadius: '50%',
+        animation: 'spin 0.8s linear infinite',
+      }} />
+      <p style={{ margin: 0, color: '#888888', fontSize: '13px' }}>
+        Redirecting to VikingsERP Central Unified Login...
+      </p>
+    </div>
+  );
+}
+
+/** Redirect to central login if not authenticated */
 function RoleRoute({ children, roles }) {
   const { user } = useAuth();
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) {
+    window.location.href = 'http://localhost:5173/login?redirect=jewel';
+    return null;
+  }
   if (!roles.includes(user.role)) return <Navigate to="/unauthorized" replace />;
   return children;
 }
@@ -36,13 +70,18 @@ function RoleRoute({ children, roles }) {
 /** Send each role to their default home page */
 function DefaultRedirect() {
   const { user } = useAuth();
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) {
+    window.location.href = 'http://localhost:5173/login?redirect=jewel';
+    return null;
+  }
   switch (user.role) {
     case 'hr_staff':         return <Navigate to="/hr/dashboard" replace />;
     case 'management':       return <Navigate to="/hr/dashboard" replace />;
     case 'employee':         return <Navigate to="/hr/payroll" replace />;
     case 'accounting_staff': return <Navigate to="/accounting/dashboard" replace />;
-    default:                 return <Navigate to="/login" replace />;
+    default:
+      window.location.href = 'http://localhost:5173/login?redirect=jewel';
+      return null;
   }
 }
 
@@ -66,7 +105,7 @@ export default function App() {
         <BrowserRouter>
         <Routes>
           {/* Public */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<CentralLoginRedirect />} />
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/" element={<DefaultRedirect />} />
 
