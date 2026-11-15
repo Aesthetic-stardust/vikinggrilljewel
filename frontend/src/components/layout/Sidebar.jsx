@@ -146,35 +146,38 @@ export default function Sidebar({ collapsed, onToggle }) {
             </NavLink>
           );
         })}
-      </nav>
 
-      {/* Return Navigation to POS & Inventory (Accounting Staff) */}
-      {user?.role === 'accounting_staff' && (
-        <div style={{ padding: '8px 12px', borderTop: '1px solid #222222' }}>
-          <a
-            href="http://localhost:5173/pos/transactions"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 12px',
-              borderRadius: '8px',
-              backgroundColor: '#8B1A1A',
-              color: '#FFFFFF',
-              textDecoration: 'none',
-              fontSize: '13px',
-              fontWeight: 600,
-              justifyContent: collapsed ? 'center' : 'flex-start',
-              cursor: 'pointer',
-              transition: 'background 0.15s ease',
-            }}
-            title="Return to POS & Inventory Audits"
-          >
-            <Icon.ChevronLeft size={16} color="currentColor" />
-            {!collapsed && <span>POS & Inventory</span>}
-          </a>
-        </div>
-      )}
+        {/* Return Navigation to POS & Inventory (Accounting Staff - styled identically to external module nav) */}
+        {user?.role === 'accounting_staff' && (
+          <div style={{ marginTop: '12px' }}>
+            {!collapsed && (
+              <div style={styles.navSectionTitle}>
+                POS & Billing
+              </div>
+            )}
+            <a
+              href="http://localhost:5173/pos/transactions"
+              style={{
+                ...styles.navItem,
+                color: '#f87171',
+                justifyContent: collapsed ? 'center' : 'flex-start',
+                paddingLeft: collapsed ? '0' : '16px',
+                opacity: 0.95,
+                cursor: 'pointer',
+              }}
+              title="Return to POS & Inventory Audits"
+            >
+              <Icon.Cart size={18} color="#f87171" />
+              {!collapsed && (
+                <>
+                  <span style={styles.navLabel}>POS & Inventory</span>
+                  <Icon.ArrowRight size={13} color="#f87171" style={{ marginLeft: 'auto', opacity: 0.7 }} />
+                </>
+              )}
+            </a>
+          </div>
+        )}
+      </nav>
 
       {/* Logout */}
       <div style={styles.footer}>
@@ -286,6 +289,14 @@ const styles = {
   userName: { fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: '#f0f0f0' },
   userEmail: { fontSize: '11px', color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '1px' },
   nav: { flex: 1, overflowY: 'auto', padding: '6px 0' },
+  navSectionTitle: {
+    fontSize: '11px',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    color: '#666666',
+    padding: '16px 16px 6px',
+  },
   navItem: {
     display: 'flex',
     alignItems: 'center',

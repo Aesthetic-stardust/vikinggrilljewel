@@ -20,28 +20,6 @@ export default function Topbar({ sidebarWidth }) {
   return (
     <header style={{ ...styles.topbar, left: sidebarWidth }}>
       <div style={styles.left}>
-        {user?.role === 'accounting_staff' && (
-          <a
-            href="http://localhost:5173/pos/transactions"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
-              borderRadius: '6px',
-              backgroundColor: '#8B1A1A',
-              color: '#FFFFFF',
-              textDecoration: 'none',
-              fontSize: '12px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              border: 'none',
-            }}
-            title="Return to POS & Inventory Audits"
-          >
-            ← POS & Inventory
-          </a>
-        )}
         <span style={styles.date}>{today}</span>
       </div>
       <div style={styles.right}>
