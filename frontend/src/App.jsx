@@ -77,11 +77,11 @@ export default function App() {
             <Route path="/hr/dashboard" element={<RoleRoute roles={['hr_staff', 'management']}><HRDashboard /></RoleRoute>} />
             <Route path="/hr/employees" element={<RoleRoute roles={['hr_staff', 'management']}><EmployeeManagement /></RoleRoute>} />
             <Route path="/hr/employees/:id" element={<RoleRoute roles={['hr_staff', 'management', 'employee']}><EmployeeDetails /></RoleRoute>} />
-            <Route path="/hr/attendance" element={<RoleRoute roles={['hr_staff', 'management', 'employee']}><AttendanceManagement /></RoleRoute>} />
+            <Route path="/hr/attendance" element={<RoleRoute roles={['hr_staff', 'management', 'employee', 'accounting_staff']}><AttendanceManagement /></RoleRoute>} />
             <Route path="/hr/scheduling" element={<RoleRoute roles={['hr_staff', 'management', 'employee']}><EmployeeScheduling /></RoleRoute>} />
-            <Route path="/hr/payroll" element={<RoleRoute roles={['hr_staff', 'management', 'employee']}><PayrollManagement /></RoleRoute>} />
-            <Route path="/hr/payroll/:id" element={<RoleRoute roles={['hr_staff', 'management', 'employee']}><PayslipDetail /></RoleRoute>} />
-            <Route path="/hr/reports" element={<RoleRoute roles={['hr_staff', 'management']}><HRReports /></RoleRoute>} />
+            <Route path="/hr/payroll" element={<RoleRoute roles={['hr_staff', 'management', 'employee', 'accounting_staff']}><PayrollManagement /></RoleRoute>} />
+            <Route path="/hr/payroll/:id" element={<RoleRoute roles={['hr_staff', 'management', 'employee', 'accounting_staff']}><PayslipDetail /></RoleRoute>} />
+            <Route path="/hr/reports" element={<RoleRoute roles={['hr_staff', 'management', 'accounting_staff']}><HRReports /></RoleRoute>} />
             <Route path="/hr/staff-activity" element={<RoleRoute roles={['management']}><StaffActivity /></RoleRoute>} />
 
             {/* ── Accounting Module ────────────────────────── */}

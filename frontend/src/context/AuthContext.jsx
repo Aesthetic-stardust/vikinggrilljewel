@@ -6,6 +6,31 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlToken = params.get('token');
+      if (urlToken) {
+        const base64Url = urlToken.split('.')[1];
+        if (base64Url) {
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split('')
+              .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+              .join('')
+          );
+          const parsedUser = JSON.parse(jsonPayload);
+          localStorage.setItem('token', urlToken);
+          localStorage.setItem('user', JSON.stringify(parsedUser));
+          const cleanUrl = window.location.pathname;
+          window.history.replaceState({}, document.title, cleanUrl);
+          return parsedUser;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse SSO token from URL:', e);
+    }
+
     const stored = localStorage.getItem('user');
     return stored ? JSON.parse(stored) : null;
   });

@@ -35,6 +35,7 @@ const ACCOUNTING_NAV = [
   { path: '/accounting/payments',     label: 'Payment Records',      icon: Icon.Payments },
   { path: '/accounting/summary',      label: 'Financial Summary',    icon: Icon.Financial },
   { path: '/accounting/reports',      label: 'Financial Reports',    icon: Icon.Reports },
+  { path: '/hr/payroll',              label: 'Payroll & Deductions', icon: Icon.Payroll },
 ];
 
 const NAV_MAP = {
@@ -146,6 +147,34 @@ export default function Sidebar({ collapsed, onToggle }) {
           );
         })}
       </nav>
+
+      {/* Return Navigation to POS & Inventory (Accounting Staff) */}
+      {user?.role === 'accounting_staff' && (
+        <div style={{ padding: '8px 12px', borderTop: '1px solid #222222' }}>
+          <a
+            href="http://localhost:5173/pos/transactions"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 12px',
+              borderRadius: '8px',
+              backgroundColor: '#8B1A1A',
+              color: '#FFFFFF',
+              textDecoration: 'none',
+              fontSize: '13px',
+              fontWeight: 600,
+              justifyContent: collapsed ? 'center' : 'flex-start',
+              cursor: 'pointer',
+              transition: 'background 0.15s ease',
+            }}
+            title="Return to POS & Inventory Audits"
+          >
+            <Icon.ChevronLeft size={16} color="currentColor" />
+            {!collapsed && <span>POS & Inventory</span>}
+          </a>
+        </div>
+      )}
 
       {/* Logout */}
       <div style={styles.footer}>
