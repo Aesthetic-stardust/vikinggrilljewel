@@ -147,8 +147,8 @@ export default function Sidebar({ collapsed, onToggle }) {
           );
         })}
 
-        {/* Return Navigation to POS & Inventory (Accounting Staff - styled identically to external module nav) */}
-        {user?.role === 'accounting_staff' && (
+        {/* Return Navigation to POS & Inventory (Accounting Staff, Owner, Manager) */}
+        {(user?.role === 'accounting_staff' || ['Owner', 'Manager', 'owner', 'manager', 'management'].includes(user?.role)) && (
           <div style={{ marginTop: '12px' }}>
             {!collapsed && (
               <div style={styles.navSectionTitle}>
