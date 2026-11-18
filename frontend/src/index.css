@@ -53,11 +53,35 @@ input, select, textarea {
   color-scheme: dark;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-secondary); }
-::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+/* --- Sidebar Scrollbar (ultra-thin 4px, minimalist, transparent track) --- */
+.sidebar-nav {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+.sidebar-nav:hover::-webkit-scrollbar-thumb {
+  background: rgba(139, 26, 26, 0.65); /* Subtle red accent on hover */
+}
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: #B03030;
+}
+
+/* --- Content & Global Scrollbars (8px, solid dark track, smooth pill thumb) --- */
+main, body {
+  scrollbar-width: thin;
+  scrollbar-color: #333333 #121212;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #111111; border-left: 1px solid #1c1c1c; }
+::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 6px; border: 1px solid #111111; }
+::-webkit-scrollbar-thumb:hover { background: #484848; }
+::-webkit-scrollbar-thumb:active { background: #8B1A1A; }
 
 /* Toast slide-in animation */
 @keyframes toastSlideIn {

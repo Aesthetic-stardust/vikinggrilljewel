@@ -126,7 +126,7 @@ export default function Sidebar({ collapsed, onToggle }) {
       )}
 
       {/* Navigation */}
-      <nav style={styles.nav}>
+      <nav className="sidebar-nav" style={styles.nav}>
         {navItems.map((item) => {
           const NavIcon = item.icon;
           return (
