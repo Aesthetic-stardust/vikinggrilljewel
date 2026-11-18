@@ -8,7 +8,15 @@ const api = axios.create({
 
 // Attach JWT token to every request
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  let token = localStorage.getItem('token');
+  if (!token && typeof window !== 'undefined') {
+    const params = new URLSearchParams(window.location.search);
+    const urlToken = params.get('token');
+    if (urlToken) {
+      token = urlToken;
+      localStorage.setItem('token', urlToken);
+    }
+  }
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });

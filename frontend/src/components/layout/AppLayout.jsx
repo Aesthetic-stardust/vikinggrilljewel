@@ -8,7 +8,11 @@ export default function AppLayout() {
   const { user } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
 
-  if (!user) return <Navigate to="/login" replace />;
+  const tokenInUrl = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('token') : null;
+  const tokenInStorage = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
+
+  if (!user && !tokenInUrl && !tokenInStorage) return <Navigate to="/login" replace />;
+  if (!user) return null;
 
   const sidebarWidth = collapsed ? '64px' : '240px';
 

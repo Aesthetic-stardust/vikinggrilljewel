@@ -60,7 +60,12 @@ function CentralLoginRedirect() {
 function RoleRoute({ children, roles }) {
   const { user } = useAuth();
   if (!user) {
-    window.location.href = 'http://localhost:5173/login?redirect=jewel';
+    const tokenInUrl = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('token') : null;
+    const tokenInStorage = typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
+    if (!tokenInUrl && !tokenInStorage) {
+      window.location.href = 'http://localhost:5173/login?redirect=jewel';
+      return null;
+    }
     return null;
   }
   const effectiveRoles = [user.role];

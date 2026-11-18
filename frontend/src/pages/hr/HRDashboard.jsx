@@ -52,17 +52,17 @@ export default function HRDashboard() {
 
   const payrollPie = payrollSummary
     ? [
-        { name: 'Gross Pay', value: Number(payrollSummary.totalGross || 0) },
-        { name: 'Deductions', value: Number(payrollSummary.totalDeductions || 0) },
-      ]
+      { name: 'Gross Pay', value: Number(payrollSummary.totalGross || 0) },
+      { name: 'Deductions', value: Number(payrollSummary.totalDeductions || 0) },
+    ]
     : [];
 
   const quickActions = [
-    { label: 'Add Employee',      Icon: Icon.Add,        path: '/hr/employees'  },
-    { label: 'Record Attendance', Icon: Icon.Attendance,  path: '/hr/attendance' },
-    { label: 'Manage Schedule',   Icon: Icon.Schedule,    path: '/hr/scheduling' },
-    { label: 'Process Payroll',   Icon: Icon.Payroll,     path: '/hr/payroll'    },
-    { label: 'View Reports',      Icon: Icon.Reports,     path: '/hr/reports'    },
+    { label: 'Add Employee', Icon: Icon.Add, path: '/hr/employees' },
+    { label: 'Record Attendance', Icon: Icon.Attendance, path: '/hr/attendance' },
+    { label: 'Manage Schedule', Icon: Icon.Schedule, path: '/hr/scheduling' },
+    { label: 'Process Payroll', Icon: Icon.Payroll, path: '/hr/payroll' },
+    { label: 'View Reports', Icon: Icon.Reports, path: '/hr/reports' },
   ];
 
   const tooltipStyle = {
@@ -154,8 +154,8 @@ export default function HRDashboard() {
                 <Tooltip {...tooltipStyle} />
                 <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '12px', color: '#CCC' }} />
                 <Bar dataKey="Present" fill="#2e7d32" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="Late"    fill="#f57f17" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="Absent"  fill="#8B1A1A" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="Late" fill="#f57f17" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="Absent" fill="#8B1A1A" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : (

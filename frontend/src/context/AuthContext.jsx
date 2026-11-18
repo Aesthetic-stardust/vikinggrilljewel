@@ -25,8 +25,6 @@ export const AuthProvider = ({ children }) => {
           const parsedUser = JSON.parse(jsonPayload);
           localStorage.setItem('token', urlToken);
           localStorage.setItem('user', JSON.stringify(parsedUser));
-          const cleanUrl = window.location.pathname;
-          window.history.replaceState({}, document.title, cleanUrl);
           return parsedUser;
         }
       }
@@ -44,6 +42,14 @@ export const AuthProvider = ({ children }) => {
     }
   });
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('token')) {
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+  }, []);
 
   const login = async (email, password) => {
     setLoading(true);
