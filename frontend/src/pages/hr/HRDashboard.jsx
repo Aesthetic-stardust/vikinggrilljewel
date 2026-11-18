@@ -43,17 +43,17 @@ export default function HRDashboard() {
 
   if (loading) return <div style={styles.loading}>Loading dashboard...</div>;
 
-  const attChartData = attendanceSummary.map((a) => ({
-    name: a.employeeName.split(' ')[0],
-    Present: a.present,
-    Absent: a.absent,
-    Late: a.late,
+  const attChartData = (attendanceSummary || []).map((a) => ({
+    name: (a.employeeName || 'Staff').split(' ')[0],
+    Present: Number(a.present || 0),
+    Absent: Number(a.absent || 0),
+    Late: Number(a.late || 0),
   }));
 
   const payrollPie = payrollSummary
     ? [
-        { name: 'Gross Pay', value: payrollSummary.totalGross },
-        { name: 'Deductions', value: payrollSummary.totalDeductions },
+        { name: 'Gross Pay', value: Number(payrollSummary.totalGross || 0) },
+        { name: 'Deductions', value: Number(payrollSummary.totalDeductions || 0) },
       ]
     : [];
 
@@ -182,7 +182,7 @@ export default function HRDashboard() {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(v) => `₱${v.toLocaleString()}`}
+                  formatter={(v) => `₱${Number(v || 0).toLocaleString()}`}
                   contentStyle={{ borderRadius: '8px', border: '1px solid #333', background: '#222', fontSize: '13px', color: '#CCC' }}
                 />
                 <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: '12px', color: '#CCC' }} />

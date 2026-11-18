@@ -12,7 +12,10 @@ export const AuthProvider = ({ children }) => {
       if (urlToken) {
         const base64Url = urlToken.split('.')[1];
         if (base64Url) {
-          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          while (base64.length % 4) {
+            base64 += '=';
+          }
           const jsonPayload = decodeURIComponent(
             atob(base64)
               .split('')
@@ -31,8 +34,14 @@ export const AuthProvider = ({ children }) => {
       console.warn('Failed to parse SSO token from URL:', e);
     }
 
-    const stored = localStorage.getItem('user');
-    return stored ? JSON.parse(stored) : null;
+    try {
+      const stored = localStorage.getItem('user');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      return null;
+    }
   });
   const [loading, setLoading] = useState(false);
 
