@@ -26,7 +26,16 @@ const authenticate = (req, res, next) => {
  */
 const authorize = (...roles) => {
   return (req, res, next) => {
-    if (!req.user || !roles.includes(req.user.role)) {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Access denied. No user session.' });
+    }
+    const userRole = req.user.role;
+    const effectiveRoles = [userRole];
+    if (['Owner', 'Manager', 'owner', 'manager', 'management'].includes(userRole)) {
+      effectiveRoles.push('management', 'accounting_staff', 'hr_staff');
+    }
+    const hasRole = roles.some((r) => effectiveRoles.includes(r));
+    if (!hasRole) {
       return res.status(403).json({
         message: `Access denied. Required role(s): ${roles.join(', ')}.`,
       });

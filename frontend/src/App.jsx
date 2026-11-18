@@ -63,7 +63,12 @@ function RoleRoute({ children, roles }) {
     window.location.href = 'http://localhost:5173/login?redirect=jewel';
     return null;
   }
-  if (!roles.includes(user.role)) return <Navigate to="/unauthorized" replace />;
+  const effectiveRoles = [user.role];
+  if (['Owner', 'Manager', 'owner', 'manager', 'management'].includes(user.role)) {
+    effectiveRoles.push('management', 'accounting_staff', 'hr_staff');
+  }
+  const hasRole = roles.some((r) => effectiveRoles.includes(r));
+  if (!hasRole) return <Navigate to="/unauthorized" replace />;
   return children;
 }
 
@@ -76,11 +81,22 @@ function DefaultRedirect() {
   }
   switch (user.role) {
     case 'hr_staff':         return <Navigate to="/hr/dashboard" replace />;
-    case 'management':       return <Navigate to="/hr/dashboard" replace />;
-    case 'employee':         return <Navigate to="/hr/payroll" replace />;
     case 'accounting_staff': return <Navigate to="/accounting/dashboard" replace />;
+    case 'management':
+    case 'Owner':
+    case 'Manager':          return <Navigate to="/accounting/dashboard" replace />;
+    case 'employee':         return <Navigate to="/hr/payroll" replace />;
+    case 'cashier':
+      window.location.href = 'http://localhost:5173/pos/orders';
+      return null;
+    case 'kitchen_staff':
+      window.location.href = 'http://localhost:5173/inventory/stock-levels';
+      return null;
+    case 'customer':
+      window.location.href = 'http://localhost:5173/customer';
+      return null;
     default:
-      window.location.href = 'http://localhost:5173/login?redirect=jewel';
+      window.location.href = 'http://localhost:5173/';
       return null;
   }
 }
@@ -90,10 +106,15 @@ function UnauthorizedPage() {
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '16px', background: '#121212' }}>
       <div style={{ fontSize: '48px' }}>🚫</div>
       <h2 style={{ margin: 0, color: '#FFFFFF' }}>Access Denied</h2>
-      <p style={{ color: '#888888', margin: 0 }}>You don't have permission to view this page.</p>
-      <button onClick={() => window.history.back()} style={{ padding: '10px 24px', background: '#8B1A1A', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 600 }}>
-        Go Back
-      </button>
+      <p style={{ color: '#888888', margin: 0 }}>You don't have permission to view HR & Accounting.</p>
+      <div style={{ display: 'flex', gap: '12px' }}>
+        <button onClick={() => window.history.back()} style={{ padding: '10px 24px', background: '#333', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 600 }}>
+          Go Back
+        </button>
+        <a href="http://localhost:5173/" style={{ padding: '10px 24px', background: '#8B1A1A', color: '#fff', textDecoration: 'none', borderRadius: '8px', fontWeight: 600 }}>
+          Return to Vikings ERP
+        </a>
+      </div>
     </div>
   );
 }
