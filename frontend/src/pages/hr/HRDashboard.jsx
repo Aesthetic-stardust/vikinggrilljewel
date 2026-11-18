@@ -117,25 +117,25 @@ export default function HRDashboard() {
         <div style={styles.cardRow}>
           <StatCard
             title="Total Gross Pay"
-            value={`₱${payrollSummary.totalGross.toLocaleString()}`}
+            value={`₱${Number(payrollSummary.totalGross || 0).toLocaleString()}`}
             icon={<Icon.GrossPay size={20} color="#1565c0" />}
             color="#1565c0"
           />
           <StatCard
             title="Total Deductions"
-            value={`₱${payrollSummary.totalDeductions.toLocaleString()}`}
+            value={`₱${Number(payrollSummary.totalDeductions || 0).toLocaleString()}`}
             icon={<Icon.Deductions size={20} color="#8B1A1A" />}
             color="#8B1A1A"
           />
           <StatCard
             title="Total Net Pay"
-            value={`₱${payrollSummary.totalNetPay.toLocaleString()}`}
+            value={`₱${Number(payrollSummary.totalNetPay || 0).toLocaleString()}`}
             icon={<Icon.NetPay size={20} color="#2e7d32" />}
             color="#2e7d32"
           />
           <StatCard
             title="Pending Payroll"
-            value={payrollSummary.pendingCount}
+            value={payrollSummary.pendingCount ?? 0}
             icon={<Icon.Pending size={20} color="#f57f17" />}
             color="#f57f17"
           />

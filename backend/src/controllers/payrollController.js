@@ -134,15 +134,22 @@ const getPayrollSummary = async (req, res, next) => {
   try {
     const [[summary]] = await pool.query(`
       SELECT
-        ROUND(SUM(basic_pay + overtime + allowances), 2)        AS totalGross,
-        ROUND(SUM(sss + philhealth + pagibig + tax), 2)         AS totalDeductions,
-        ROUND(SUM(net_pay), 2)                                  AS totalNetPay,
-        SUM(status = 'paid')                                    AS paidCount,
-        SUM(status = 'pending')                                 AS pendingCount,
-        COUNT(*)                                                AS totalRecords
+        COALESCE(ROUND(SUM(basic_pay + overtime + allowances), 2), 0.00) AS totalGross,
+        COALESCE(ROUND(SUM(sss + philhealth + pagibig + tax), 2), 0.00)  AS totalDeductions,
+        COALESCE(ROUND(SUM(net_pay), 2), 0.00)                           AS totalNetPay,
+        COALESCE(SUM(status = 'paid'), 0)                                AS paidCount,
+        COALESCE(SUM(status = 'pending'), 0)                             AS pendingCount,
+        COUNT(*)                                                         AS totalRecords
       FROM payroll
     `);
-    res.json(summary);
+    res.json({
+      totalGross: parseFloat(summary.totalGross || 0),
+      totalDeductions: parseFloat(summary.totalDeductions || 0),
+      totalNetPay: parseFloat(summary.totalNetPay || 0),
+      paidCount: parseInt(summary.paidCount || 0, 10),
+      pendingCount: parseInt(summary.pendingCount || 0, 10),
+      totalRecords: parseInt(summary.totalRecords || 0, 10),
+    });
   } catch (err) {
     next(err);
   }

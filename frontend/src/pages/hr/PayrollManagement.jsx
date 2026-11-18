@@ -112,10 +112,10 @@ export default function PayrollManagement() {
       {/* Summary */}
       {summary && (isHR || isManagement) && (
         <div style={styles.cardRow}>
-          <StatCard title="Total Gross" value={`₱${summary.totalGross.toLocaleString()}`} icon={<Icon.GrossPay size={20} color="#1565c0" />} color="#1565c0" />
-          <StatCard title="Total Deductions" value={`₱${summary.totalDeductions.toLocaleString()}`} icon={<Icon.Deductions size={20} color="#c62828" />} color="#c62828" />
-          <StatCard title="Total Net Pay" value={`₱${summary.totalNetPay.toLocaleString()}`} icon={<Icon.NetPay size={20} color="#2e7d32" />} color="#2e7d32" />
-          <StatCard title="Paid" value={summary.paidCount} icon={<Icon.ActiveEmployees size={20} color="#2e7d32" />} color="#2e7d32" subtitle={`${summary.pendingCount} pending`} />
+          <StatCard title="Total Gross" value={`₱${Number(summary.totalGross || 0).toLocaleString()}`} icon={<Icon.GrossPay size={20} color="#1565c0" />} color="#1565c0" />
+          <StatCard title="Total Deductions" value={`₱${Number(summary.totalDeductions || 0).toLocaleString()}`} icon={<Icon.Deductions size={20} color="#c62828" />} color="#c62828" />
+          <StatCard title="Total Net Pay" value={`₱${Number(summary.totalNetPay || 0).toLocaleString()}`} icon={<Icon.NetPay size={20} color="#2e7d32" />} color="#2e7d32" />
+          <StatCard title="Paid" value={summary.paidCount ?? 0} icon={<Icon.ActiveEmployees size={20} color="#2e7d32" />} color="#2e7d32" subtitle={`${summary.pendingCount ?? 0} pending`} />
         </div>
       )}
 
